@@ -122,7 +122,22 @@ fn test_evaluate_equation_over_field() {
 
 #[test]
 fn test_init_from_string() {
-    let equation = sum_check::equation::Equation::from_string("x*y^3 + 2*y^1".to_string());
+    let equation = sum_check::equation::Equation::from_string("x*y^3 + 2*y^1 + 3*y^3".to_string());
+    assert_eq!(equation.inputs, vec!["x".to_string(), "y".to_string()]);
+    assert_eq!(equation.terms[0].coefficient, 1);
+    assert_eq!(equation.terms[0].variables[0].name, "x".to_string());
+    assert_eq!(equation.terms[0].variables[0].exponent, 1);
+    assert_eq!(equation.terms[0].variables[1].name, "y".to_string());
+    assert_eq!(equation.terms[0].variables[1].exponent, 3);
+    assert_eq!(equation.terms[1].coefficient, 2);
+    assert_eq!(equation.terms[1].variables[0].name, "y".to_string());
+    assert_eq!(equation.terms[1].variables[0].exponent, 1);
+}
+
+#[test]
+fn test_init_from_string_with_minus() {
+    let equation = sum_check::equation::Equation::from_string("x*y^3 + 2*y^1 - 3*y^3".to_string());
+    assert_eq!(equation.evaluate(vec![2, 3]), -21);
     assert_eq!(equation.inputs, vec!["x".to_string(), "y".to_string()]);
     assert_eq!(equation.terms[0].coefficient, 1);
     assert_eq!(equation.terms[0].variables[0].name, "x".to_string());

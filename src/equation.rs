@@ -23,14 +23,20 @@ impl Equation{
 
     pub fn from_string(mut function_f: String) -> Equation {
         let mut inputs = Vec::new();
-        let oprators = ['+', '-'];
+        let oprators = ['+'];
         let term_oprators = ['*', '/'];
         let pow_oprator = ['^'];
         let mut terms = Vec::new();
         function_f = function_f.replace(" ", "");
-        let terms_strings = split_string_based_on_list( &function_f, &oprators);
+        function_f = function_f.replace("-", "+-");
+        let (terms_strings, inds) = split_string_based_on_list( &function_f, &oprators);
+        let mut i = 0;
         for term_string in terms_strings{
-            let mut coefficient = 1;
+
+            let mut coefficient: i128 = 1;
+            if term_string == ""{
+                continue;
+            }
             let mut variables = Vec::new();
             let mut term_strings2: Vec<_> = term_string.split(|c| term_oprators.contains(&c)).collect();
             for term_string2 in term_strings2{
@@ -40,7 +46,7 @@ impl Equation{
                     let mut exponent = 1;
                     let mut name = term_string2.to_string();
                     if term_string2.contains("^"){
-                        let parts: Vec<_> = split_string_based_on_list( &term_string2, &pow_oprator); 
+                        let (parts, indexs) = split_string_based_on_list( &term_string2, &pow_oprator); 
                         name = parts[0].to_string();
                         exponent = parts[1].parse::<u32>().unwrap();
                     }
@@ -57,6 +63,7 @@ impl Equation{
                 coefficient: coefficient,
                 variables: variables,
             });
+            i += 1;
         }
         Equation{
             inputs: inputs,
@@ -101,8 +108,10 @@ pub fn add(a: i32, b: i32) -> i32 {
 }
 
 
-pub fn split_string_based_on_list<'a>(input: &'a str, delimiters: &'a [char]) -> Vec<&'a str> {
-    input.split(|c| delimiters.contains(&c)).collect()
+pub fn split_string_based_on_list<'a>(input: &'a str, delimiters: &'a [char]) -> (Vec<&'a str>,  Vec<usize>){
+    let indexes = input.match_indices(|c| delimiters.contains(&c)).map(|(index, _)| index).collect::<Vec<_>>();
+    let result = input.split(|c| delimiters.contains(&c)).collect::<Vec<_>>();
+    return (result, indexes);
 }
 
 fn is_integer(s: &str) -> bool {
