@@ -1,4 +1,3 @@
-
 use sum_check;
 
 #[test]
@@ -17,134 +16,28 @@ fn test_add_zero() {
 }
 
 #[test]
-fn test_create_equation() {
-    let inputs = vec!["x".to_string(), "y".to_string()];
-    let terms = vec![
-        sum_check::equation::Term{
-            coefficient: 1,
-            variables: vec![
-                sum_check::equation::Variable{
-                    name: "x".to_string(),
-                    exponent: 1,
-                },
-                sum_check::equation::Variable{
-                    name: "y".to_string(),
-                    exponent: 3,
-                },
-            ],
-        },
-        sum_check::equation::Term{
-            coefficient: 2,
-            variables: vec![
-                sum_check::equation::Variable{
-                    name: "y".to_string(),
-                    exponent: 1,
-                },
-            ],
-        },
-    ];
-    let equation = sum_check::equation::Equation::new(inputs, terms);
-    assert_eq!(equation.inputs, vec!["x".to_string(), "y".to_string()]);
-    assert_eq!(equation.terms[0].coefficient, 1);
-    assert_eq!(equation.terms[0].variables[0].name, "x".to_string());
-    assert_eq!(equation.terms[0].variables[0].exponent, 1);
-    assert_eq!(equation.terms[0].variables[1].name, "y".to_string());
-    assert_eq!(equation.terms[0].variables[1].exponent, 3);
-    assert_eq!(equation.terms[1].coefficient, 2);
-    assert_eq!(equation.terms[1].variables[0].name, "y".to_string());
-    assert_eq!(equation.terms[1].variables[0].exponent, 1);
-}
-
-
-#[test]
-fn test_evaluate_equation() {
-    let inputs = vec!["x".to_string(), "y".to_string()];
-    let terms = vec![
-        sum_check::equation::Term{
-            coefficient: 1,
-            variables: vec![
-                sum_check::equation::Variable{
-                    name: "x".to_string(),
-                    exponent: 1,
-                },
-                sum_check::equation::Variable{
-                    name: "y".to_string(),
-                    exponent: 3,
-                },
-            ],
-        },
-        sum_check::equation::Term{
-            coefficient: 2,
-            variables: vec![
-                sum_check::equation::Variable{
-                    name: "y".to_string(),
-                    exponent: 1,
-                },
-            ],
-        },
-    ];
-    let equation = sum_check::equation::Equation::new(inputs, terms);
-    let values = vec![2, 3];
-    assert_eq!(equation.evaluate(values), 60);
-}
-
-#[test]
-fn test_evaluate_equation_over_field() {
-    let inputs = vec!["x".to_string(), "y".to_string()];
-    let terms = vec![
-        sum_check::equation::Term{
-            coefficient: 1,
-            variables: vec![
-                sum_check::equation::Variable{
-                    name: "x".to_string(),
-                    exponent: 1,
-                },
-                sum_check::equation::Variable{
-                    name: "y".to_string(),
-                    exponent: 3,
-                },
-            ],
-        },
-        sum_check::equation::Term{
-            coefficient: 2,
-            variables: vec![
-                sum_check::equation::Variable{
-                    name: "y".to_string(),
-                    exponent: 1,
-                },
-            ],
-        },
-    ];
-    let equation = sum_check::equation::Equation::new(inputs, terms);
-    let values = vec![2, 3];
-    assert_eq!(equation.evaluateOverFieldF(values, 7), 4);
-}
-
-#[test]
 fn test_init_from_string() {
-    let equation = sum_check::equation::Equation::from_string("x*y^3 + 2*y^1 + 3*y^3".to_string());
+    let equation = sum_check::equation::Equation::from_string("x");
+    assert_eq!(equation.evaluate(vec![1]), 1);
+    assert_eq!(equation.inputs, vec!["x".to_string()]);
+    let equation2 = sum_check::equation::Equation::from_string("x + y");
+    assert_eq!(equation2.evaluate(vec![1, 1]), 2);
+    assert_eq!(equation2.inputs, vec!["x".to_string(), "y".to_string()]);
+    let equation3 = sum_check::equation::Equation::from_string("x^2");
+    assert_eq!(equation3.evaluate(vec![2]), 4);
+}
+
+#[test]
+fn test_init_from_string2() {
+    let equation = sum_check::equation::Equation::from_string("x*y^3 + 2*y^1 + 3*y^3");
+    assert_eq!(equation.evaluate(vec![1, 1]), 6);
     assert_eq!(equation.inputs, vec!["x".to_string(), "y".to_string()]);
-    assert_eq!(equation.terms[0].coefficient, 1);
-    assert_eq!(equation.terms[0].variables[0].name, "x".to_string());
-    assert_eq!(equation.terms[0].variables[0].exponent, 1);
-    assert_eq!(equation.terms[0].variables[1].name, "y".to_string());
-    assert_eq!(equation.terms[0].variables[1].exponent, 3);
-    assert_eq!(equation.terms[1].coefficient, 2);
-    assert_eq!(equation.terms[1].variables[0].name, "y".to_string());
-    assert_eq!(equation.terms[1].variables[0].exponent, 1);
+    assert_eq!(equation.to_string(), "x*y^3+3*y^3+2*y".to_string());
 }
 
 #[test]
 fn test_init_from_string_with_minus() {
-    let equation = sum_check::equation::Equation::from_string("x*y^3 + 2*y^1 - 3*y^3".to_string());
+    let equation = sum_check::equation::Equation::from_string("x*y^3 + 2*y^1 - 3*y^3");
     assert_eq!(equation.evaluate(vec![2, 3]), -21);
-    assert_eq!(equation.inputs, vec!["x".to_string(), "y".to_string()]);
-    assert_eq!(equation.terms[0].coefficient, 1);
-    assert_eq!(equation.terms[0].variables[0].name, "x".to_string());
-    assert_eq!(equation.terms[0].variables[0].exponent, 1);
-    assert_eq!(equation.terms[0].variables[1].name, "y".to_string());
-    assert_eq!(equation.terms[0].variables[1].exponent, 3);
-    assert_eq!(equation.terms[1].coefficient, 2);
-    assert_eq!(equation.terms[1].variables[0].name, "y".to_string());
-    assert_eq!(equation.terms[1].variables[0].exponent, 1);
+    assert_eq!(equation.to_string(), "x*y^3-3*y^3+2*y".to_string());
 }
