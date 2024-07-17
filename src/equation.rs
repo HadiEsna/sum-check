@@ -192,12 +192,32 @@ impl Equation {
         sorted_terms
     }
 
+    pub fn degree(&self) -> u32 {
+        let mut max_degree: u32 = 0;
+        for (term, _) in &self.terms {
+            for (_, exp) in &term.exponents {
+                if *exp > max_degree {
+                    max_degree = *exp;
+                }
+            }
+        }
+        max_degree
+    }
+
     pub fn add(&self, other: &Equation) -> Equation {
         let mut result = Equation::new();
         for (term, coef) in &self.terms {
             result.add_term(term.clone(), coef.clone());
         }
         for (term, coef) in &other.terms {
+            result.add_term(term.clone(), coef.clone());
+        }
+        result
+    }
+
+    pub fn clone(&self) -> Equation {
+        let mut result = Equation::new();
+        for (term, coef) in &self.terms {
             result.add_term(term.clone(), coef.clone());
         }
         result
