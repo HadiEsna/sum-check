@@ -53,8 +53,7 @@ impl Verifier {
         inputs[0] = 1;
         sum += new_equation.evaluate_over_f(inputs.to_vec(), self.f);
         sum = sum % self.f;
-        inputs[0] = value;
-        if sum != previous_equation.evaluate_over_f(inputs.try_into().unwrap(), self.f) {
+        if sum != previous_equation.evaluate_over_f([value].try_into().unwrap(), self.f) {
             println!("sum: {}", sum);
             println!(
                 "previous: {}",
@@ -75,11 +74,5 @@ impl Verifier {
         if latest_evaluation != original_evaluation {
             panic!("sum is not equal to the sum of the equation");
         }
-    }
-    pub fn choose_random_input_and_set_value(&self, lenght: usize) -> (i128, i128) {
-        let mut rng = rand::thread_rng();
-        let random_index = rng.gen_range(0..lenght);
-        let random_value = rng.gen_range(0..self.f);
-        (random_index as i128, random_value)
     }
 }
