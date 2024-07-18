@@ -1,4 +1,4 @@
-use crate::equation::Equation;
+use crate::equation::equation::Equation;
 use crate::prover::Prover;
 use crate::verifier::Verifier;
 

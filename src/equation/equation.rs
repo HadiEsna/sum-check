@@ -3,7 +3,7 @@ use std::cmp::Ordering;
 use std::collections::HashMap;
 use std::hash::{Hash, Hasher};
 
-use crate::term::Term;
+use crate::equation::term::Term;
 
 pub struct Equation {
     pub inputs: Vec<String>,

@@ -1,4 +1,4 @@
-use crate::equation::Equation;
+use crate::equation::equation::Equation;
 
 pub struct Sum {
     equation: Equation,
