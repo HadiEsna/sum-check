@@ -4,7 +4,7 @@ The goal here is to implement and expriment with the sum-check protocol explaine
 
 ## roadmap
 
-- [*] implementing needed libraries (equation)
-- [*] implementing sum-check protocol
+- [x] implementing needed libraries (equation)
+- [x] implementing sum-check protocol
 - [ ] implementing gkr
 - [ ] implementing non-interactive version of the prover
