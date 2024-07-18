@@ -38,7 +38,7 @@ fn test_init_and_evaluate_circuit2() {
         }],
     };
     let circuit = Circuit {
-        layers: vec![layer1, layer2],
+        layers: vec![layer2, layer1],
     };
     assert_eq!(circuit.evaluate(vec![1, 2, 2, 2]), 7);
 }

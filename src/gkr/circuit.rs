@@ -53,7 +53,7 @@ impl Circuit {
                 if self.layers.len() == 0 {
                     inputs_int.push(input.parse::<usize>().unwrap());
                 } else {
-                    let last_layer = &self.layers[self.layers.len() - 1];
+                    let last_layer = &self.layers[0];
                     let last_layer_gates = &last_layer.gates;
                     let mut found = false;
                     for last_layer_gate in last_layer_gates {
@@ -75,7 +75,7 @@ impl Circuit {
                 name: name,
             });
         }
-        self.layers.push(Layer { gates: gates });
+        self.layers.insert(0, Layer { gates: gates });
     }
 
     pub fn add_layer(&mut self, layer: Layer) {
@@ -84,8 +84,8 @@ impl Circuit {
 
     pub fn evaluate(&self, inputs: Vec<i128>) -> i128 {
         let mut outputs = inputs.clone();
-
-        for layer in self.layers.iter() {
+        let reversed_layers = self.layers.iter().rev();
+        for layer in reversed_layers {
             let mut new_outputs = vec![];
             for gate in layer.gates.iter() {
                 if gate.gate_type == GateType::Add {

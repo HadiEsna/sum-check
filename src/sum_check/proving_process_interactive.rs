@@ -1,6 +1,6 @@
 use crate::equation::equation::Equation;
-use crate::prover::Prover;
-use crate::verifier::Verifier;
+use crate::sum_check::prover::Prover;
+use crate::sum_check::verifier::Verifier;
 
 pub fn run_proving_process(equation: Equation, f: i128) {
     let mut prover = Prover::new(equation.clone(), f);
