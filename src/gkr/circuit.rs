@@ -56,9 +56,10 @@ impl Circuit {
                     let last_layer = &self.layers[0];
                     let last_layer_gates = &last_layer.gates;
                     let mut found = false;
-                    for last_layer_gate in last_layer_gates {
-                        if last_layer_gate.name == input {
-                            inputs_int.push(last_layer_gate.inputs[0]);
+                    // loop with index to get the index of the gate
+                    for i in 0..last_layer_gates.len() {
+                        if last_layer_gates[i].name == input {
+                            inputs_int.push(i);
                             found = true;
                             break;
                         }
