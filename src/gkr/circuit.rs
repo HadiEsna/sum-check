@@ -58,7 +58,7 @@ impl Circuit {
                     let mut found = false;
                     // loop with index to get the index of the gate
                     for i in 0..last_layer_gates.len() {
-                        if last_layer_gates[i].name == input {
+                        if last_layer_gates[i].name == input || i.to_string() == input {
                             inputs_int.push(i);
                             found = true;
                             break;
