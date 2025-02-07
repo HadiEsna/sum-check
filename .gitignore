@@ -1,2 +1,4 @@
 /target
 tarpaulin-report.html
+config.bat
+node_modules
