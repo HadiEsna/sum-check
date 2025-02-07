@@ -1,7 +1,5 @@
-use num::BigInt;
 use std::cmp::Ordering;
 use std::collections::HashMap;
-use std::hash::{Hash, Hasher};
 
 use crate::equation::term::Term;
 
@@ -170,12 +168,10 @@ impl Equation {
                 result = result % f;
             }
         }
-        let mut ee = equation.to_string();
         if result > 0 {
             let term = Term::new();
             equation.add_term(term, result);
         }
-        ee = equation.to_string();
         equation
     }
 

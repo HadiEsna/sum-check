@@ -1,4 +1,3 @@
-use num::BigInt;
 use std::cmp::Ordering;
 use std::collections::HashMap;
 use std::hash::{Hash, Hasher};
